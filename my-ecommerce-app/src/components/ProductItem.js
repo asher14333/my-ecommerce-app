@@ -17,7 +17,7 @@ const ProductItem = ({ product }) => {
         maxWidth: '200px',
         height: 'auto'
       }}/>
-      <h3>{product.name}</h3>
+      <p>{product.name}</p>
       <p>Price: ${product.price}</p>
       {showDetails && <p>{product.description}</p>}
       <button onClick={() => console.log('Add to Cart clicked')}>Add to Cart</button>
