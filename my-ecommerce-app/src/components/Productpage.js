@@ -1,31 +1,62 @@
-// Productpage.js
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import ProductList from './ProductList';
 import Cart from './Cart';
 import Footer from './Footer';
 
 const Productpage = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cart, setCart] = useState([]);
 
+  const addToCart = (product) => {
+    const existingItemIndex = cart.findIndex((item) => item.id === product.id);
+
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].quantity++;
+      setCart(updatedCart);
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+  };
+
+  const removeFromCart = (item) => {
+    const updatedCart = cart.map((cartItem) =>
+      cartItem.id === item.id
+        ? { ...cartItem, quantity: cartItem.quantity - 1 }
+        : cartItem
+    );
+  
+    setCart(updatedCart.filter((cartItem) => cartItem.quantity > 0));
+  };
+  
   useEffect(() => {
-    // Load cart items from local storage on component mount
-    const savedCartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
-    setCartItems(savedCartItems);
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
   }, []);
 
   useEffect(() => {
-    // Save cart items to local storage whenever cartItems changes
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [cartItems]);
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  // return (
+  //   <div className="product-page">
+  //     <Header />
+  //     <div className="content">
+  //       <ProductList addToCart={addToCart} />
+  //       <Cart cart={cart} removeFromCart={removeFromCart} />
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <div className="product-page">
       <Header />
       <table>
         <tr>
-          <td><ProductList /></td>
-          <td style={{ verticalAlign: 'top' }}><Cart cartItems={cartItems} /></td>
+          <td><ProductList addToCart={addToCart} /></td>
+          <td className="cart-wrapper" style={{ verticalAlign: 'top' }}><Cart cart={cart} removeFromCart={removeFromCart} /></td>
         </tr>
       </table>
       <Footer />

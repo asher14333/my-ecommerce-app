@@ -1,17 +1,14 @@
-// Cart.js
 import React from 'react';
 import CartItem from './CartItem';
 
-const Cart = ({ cartItems }) => {
-  const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
+const Cart = ({ cart, removeFromCart }) => {
   return (
     <div className="cart">
       <h2>Shopping Cart</h2>
-      {cartItems.map((item, index) => (
-        <CartItem key={index} item={item} />
+      {cart.map((item) => (
+        <CartItem key={item.id} item={item} removeFromCart={removeFromCart} />
       ))}
-      <h3>Total: {total}</h3>
+      <p>Total (In cart): ${cart.reduce((total, item) => total + item.price * item.quantity, 0)}</p>
     </div>
   );
 };
