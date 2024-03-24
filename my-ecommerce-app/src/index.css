@@ -28,3 +28,11 @@ nav ul {
 nav ul li {
   margin: 0 10px; 
 }
+.cart-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  top: 150px;
+  right: 200px; 
+  padding: 10px;
+}
