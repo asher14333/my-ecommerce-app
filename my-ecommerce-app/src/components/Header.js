@@ -5,9 +5,10 @@ const Header = () => {
   return (
     <header>
       <div className="logo">
-        <img src="logo.png" alt="Logo"/>
+        <img height = "75px" width = "75px" src="/images/logo.png" alt="Logo"/>
+        <p>Company Name</p>
       </div>
-      <nav>
+      <nav class="navigation-bar">
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/products">Products</Link></li>
