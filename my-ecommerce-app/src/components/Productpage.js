@@ -40,15 +40,7 @@ const Productpage = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
-  // return (
-  //   <div className="product-page">
-  //     <Header />
-  //     <div className="content">
-  //       <ProductList addToCart={addToCart} />
-  //       <Cart cart={cart} removeFromCart={removeFromCart} />
-  //     </div>
-  //   </div>
-  // );
+
 
   return (
     <div className="product-page">

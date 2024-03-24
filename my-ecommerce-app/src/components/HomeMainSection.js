@@ -23,7 +23,7 @@ const HomeMainSection = () => {
         {/* <button onClick={() => console.log('Shop Now clicked')}>Shop Now</button> */}
         {/* <li><Link to="/products">Products</Link></li> */}
 
-        <button style={{ textDecoration: 'none' }}><Link to="/products">Shop Now</Link></button>
+        <button style={{ textDecoration: 'none', color: 'black '}}><Link to="/products">Shop Now</Link></button>
         
       </div>
       <div className="customer-reviews">
