@@ -5,8 +5,12 @@ import Cart from './Cart';
 import Footer from './Footer';
 
 const Productpage = () => {
-  const [cart, setCart] = useState([]);
-  const [cartPosition, setCartPosition] = useState('200px'); // Initial position
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  const [cartPosition, setCartPosition] = useState('200px'); 
 
 
   const addToCart = (product) => {
@@ -30,23 +34,31 @@ const Productpage = () => {
         : cartItem
     );
   
-    setCart(updatedCart.filter((cartItem) => cartItem.quantity > 0));
-    setCartPosition('200px');
-
+    const filteredCart = updatedCart.filter((cartItem) => cartItem.quantity > 0);
+  
+    setCart(filteredCart);
+  
+    if (filteredCart.length === 0) {
+      setCartPosition('200px');
+    }
   };
+  
   
   useEffect(() => {
     const savedCart = localStorage.getItem('cart');
+    console.log('Saved Cart:', savedCart);
     if (savedCart) {
       setCart(JSON.parse(savedCart));
     }
+    setCartPosition('1000px');
+
   }, []);
 
   useEffect(() => {
+    console.log('Cart Updated:', cart);
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
-
-
+  
   const cartwrapper = {
     display: 'flex',
     justifyContent: 'flex-end',
