@@ -6,6 +6,8 @@ import Footer from './Footer';
 
 const Productpage = () => {
   const [cart, setCart] = useState([]);
+  const [cartPosition, setCartPosition] = useState('200px'); // Initial position
+
 
   const addToCart = (product) => {
     const existingItemIndex = cart.findIndex((item) => item.id === product.id);
@@ -17,6 +19,8 @@ const Productpage = () => {
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
+    setCartPosition('1000px');
+
   };
 
   const removeFromCart = (item) => {
@@ -27,6 +31,8 @@ const Productpage = () => {
     );
   
     setCart(updatedCart.filter((cartItem) => cartItem.quantity > 0));
+    setCartPosition('200px');
+
   };
   
   useEffect(() => {
@@ -41,14 +47,22 @@ const Productpage = () => {
   }, [cart]);
 
 
-
+  const cartwrapper = {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    top: '150px',
+    right: cartPosition,
+    padding: '10px',
+  }
+  
   return (
     <div className="product-page">
       <Header />
       <table>
         <tr>
           <td><ProductList addToCart={addToCart} /></td>
-          <td className="cart-wrapper" style={{ verticalAlign: 'top' }}><Cart cart={cart} removeFromCart={removeFromCart} /></td>
+          <td style={cartwrapper}><Cart cart={cart} removeFromCart={removeFromCart} /></td>
         </tr>
       </table>
       <Footer />
