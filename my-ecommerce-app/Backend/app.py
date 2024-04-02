@@ -1,10 +1,26 @@
+from flask import Flask, request, jsonify
 
+app = Flask(__name__)
 
+users = []
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.json
 
+    username = data.get('username')
+    password = data.get('password')
+    email = data.get('email')
 
+    if any(user['username'] == username for user in users):
+        return jsonify({'error': 'Username already exists'}), 400
+    
+    users.append({'username': username, 'password': password, 'email': email})
 
+    return jsonify({'message': 'Signup successful'}), 201
 
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
 
