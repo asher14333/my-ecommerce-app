@@ -1,31 +1,51 @@
 import React, { useState } from 'react';
 
-const SignupForm = ({ switchToLogin }) => {
+const SignupForm = ({ onSwitchToLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordConfirm, setpasswordConfirm] = useState('');
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState(''); 
 
-  const handleSignup = () => {
-    if (
-      username.trim() !== '' &&
-      password.trim() !== '' &&
-      confirmPassword.trim() !== '' &&
-      email.trim() !== ''
-    ) {
-      if (password === confirmPassword) {
-        // Perform signup action here
-        console.log('Signing up with:', { username, password, email });
-      } else {
-        alert('Passwords do not match');
-      }
-    } else {
-      alert('Please fill in all fields');
+  const handleSignup = (e) => {
+    e.preventDefault();
+    
+    if (!username || !password || !passwordConfirm || !email) {
+      setMessage("All fields are required.");
+      return;
     }
+  
+    if (password !== passwordConfirm) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+  
+    const retrieveInfo = { username, password, email };
+  
+    fetch('http://localhost:5000/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(retrieveInfo),
+    })
+    .then(response => response.json())
+    .then(data => {
+      setMessage(data.message); 
+      if (data.message === 'User registered successfully' || data.message === 'Username is already taken') {
+        setUsername('');
+        setPassword('');
+        setpasswordConfirm('');
+        setEmail('');
+      }
+    })
+    .catch((error) => {
+      setMessage("Error");
+    });
   };
 
   return (
-    <div>
+    <form onSubmit={handleSignup}>
+      {message && <div style={{ color: 'red', marginBottom: '10px' }}>{message}</div>}
+      <div>
       <h2>Signup</h2>
       <div style={{ marginBottom: '3px'}}>
         <label>Username: </label>
@@ -48,8 +68,8 @@ const SignupForm = ({ switchToLogin }) => {
         <input
         type="password"
         placeholder="Confirm your password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}/>
+        value={passwordConfirm}
+        onChange={(e) => setpasswordConfirm(e.target.value)}/>
       </div>
       <div style={{ marginBottom: '3px'}}>
         <label>Email: </label>
@@ -62,9 +82,10 @@ const SignupForm = ({ switchToLogin }) => {
       <div style={{ marginBottom: '3px'}}>
       <button onClick={handleSignup}>Signup</button>
       </div>
-      <button onClick={switchToLogin}>Switch to Login</button>
+      <button onClick={onSwitchToLogin}>Switch to Login</button>
     </div>
+    </form>
   );
-}
+};
 
 export default SignupForm;
