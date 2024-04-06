@@ -19,9 +19,9 @@ const LoginPage = () => {
     <div>
       <Header />
       {showLoginForm ? (
-        <LoginForm switchToSignup={switchToSignup} />
+        <LoginForm onSwitchToSignup={switchToSignup} />
       ) : (
-        <SignupForm switchToLogin={switchToLogin} />
+        <SignupForm onSwitchToLogin={switchToLogin} />
       )}
       <Footer />
     </div>
