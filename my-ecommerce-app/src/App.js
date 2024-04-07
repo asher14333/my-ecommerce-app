@@ -12,8 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route index element={<Homepage />} />
-          <Route path="/Productpage" element={<Productpage />} />
-          {/* <Route path="/Productpage" element={<Authenticator> <Productpage /> </Authenticator>} />      */}
+          <Route path="/Products" element={<Authenticator> <Productpage /> </Authenticator>} />
           <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Router>

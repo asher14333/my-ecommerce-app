@@ -5,7 +5,7 @@ import { Authentication } from './Authenticator';
 const AuthenticationChecker = ({ children }) => {
   const { isAuthenticated } = Authentication();
 
-  return isAuthenticated ? children : <Navigate to="/LoginPage" />;
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 export default AuthenticationChecker;
